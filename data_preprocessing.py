@@ -14,11 +14,13 @@ def preprocessing(df):
     errors = []
     for i in range(1, 31):
         values = df.loc[df['League Rank'] == i]
+        # if i == 4 or i == 5:
+        #     errors.append(values.index.tolist())
         mean = values.mean()
         standard_deviation = values.std()
         for key, value in categories.items():
-            gte = values[values[value] > mean[value] + standard_deviation[value]].index.tolist() 
-            lte = values[values[value] < mean[value] - standard_deviation[value]].index.tolist()
+            gte = values[values[value] > mean[value] + 0.5*standard_deviation[value]].index.tolist() 
+            lte = values[values[value] < mean[value] - 0.5*standard_deviation[value]].index.tolist()
             
             if gte:
                 errors.append(gte)
@@ -30,7 +32,5 @@ def preprocessing(df):
 
     for error in errors:
         df.drop(index = error, axis = 1, inplace = True)
-        # X.drop(index = error, axis = 1, inplace = True)
-        # y.drop(index = error, axis = 1, inplace = True)
 
     return df

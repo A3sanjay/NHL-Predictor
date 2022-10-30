@@ -8,7 +8,7 @@ import data_augmentation
 
 cumulative_stats = []
 year = 2020
-while year > 2015:
+while year > 2002:
     tmp_year = year - 1
     y_standings = yearly_standings.standings(year)
 

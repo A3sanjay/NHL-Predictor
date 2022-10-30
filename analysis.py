@@ -44,7 +44,7 @@ import data_preprocessing
 df = pd.read_csv('regular_season_data.csv')
 
 data_preprocessing.preprocessing(df)
-
+print(len(df))
 new_df = pd.DataFrame(data_augmentation.augmentation(df.values.tolist())).sample(frac = 1)
 
 X = new_df.drop([5], axis=1)
@@ -52,12 +52,6 @@ X.columns = ['Points', 'Wins', 'Points Percentage', 'Goals For', 'Goals Against'
 
 y = new_df[5]
 y.columns = ['League Rank']
-
-# plt.scatter(df['Points'].sample(100), y_data.sample(100))
-# plt.xlabel('Wins')
-# plt.ylabel('League Rank')
-# plt.show()
-# sns.regplot(x='Wins', y='League Rank', data=df)
 
 # Using KNN for the ML Model
 MinMaxScaler = preprocessing.MinMaxScaler()
@@ -100,7 +94,13 @@ from sklearn.model_selection import cross_val_score
 scores = cross_val_score(knn_clf, X, y, cv=5)
 print('Model accuracy: ', np.mean(scores))
 
-test_data = [0, 0, 0, 0, 0]
+test_data = [85, 37, 0.52, 230, 200]
 test = np.array(test_data)
 
 print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
+
+for column in X.columns:
+    plt.scatter(X[column].sample(100), y.sample(100))
+    plt.xlabel(str(column))
+    plt.ylabel('League Rank')
+    plt.show()
