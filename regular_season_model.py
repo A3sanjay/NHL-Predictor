@@ -1,36 +1,5 @@
-# import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-# import pandas as pd
-# from sklearn import datasets, metrics
-# from sklearn.metrics import classification_report, confusion_matrix
-# from sklearn.model_selection import train_test_split
-
-# # Use a Decision Tree for the ML model 
-# df = pd.read_csv(r'data.csv')
-
-# X = df[['Points', 'Points Percentage', 'Goals Against', 'Goals For']] 
-# y = df[['League Rank']]
-
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 42)
-
-# from sklearn.tree import DecisionTreeClassifier
-# classifier = DecisionTreeClassifier(criterion='entropy', max_depth = 3, random_state=42)
-# classifier.fit(X_train, y_train)
-# y_pred_train = classifier.predict(X_train)
-
-# from sklearn import metrics 
-# from sklearn.metrics import confusion_matrix, classification_report
-# accuracy = metrics.accuracy_score(y_train, y_pred_train)
-# print("Accuracy: {:.2f}".format(accuracy))
-# cm = confusion_matrix(y_train, y_pred_train)
-
-# test_data = [116, 0.71, 202, 278]
-# test = np.array(test_data)
-
-# classifier.predict(test.reshape(-1, 4))
-# # print('Confusion Matrix: \n', cm)
-# # print(classification_report(y_train, y_pred_train))
 
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
@@ -44,7 +13,6 @@ import data_preprocessing
 df = pd.read_csv('regular_season_data.csv')
 
 data_preprocessing.preprocessing(df)
-print(len(df))
 new_df = pd.DataFrame(data_augmentation.augmentation(df.values.tolist())).sample(frac = 1)
 
 X = new_df.drop([5], axis=1)
@@ -99,8 +67,12 @@ test = np.array(test_data)
 
 print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
 
-for column in X.columns:
-    plt.scatter(X[column].sample(100), y.sample(100))
-    plt.xlabel(str(column))
-    plt.ylabel('League Rank')
-    plt.show()
+# for column in X.columns:
+#     plt.scatter(X[column].sample(100), y.sample(100))
+#     plt.xlabel(str(column))
+#     plt.ylabel('League Rank')
+#     plt.show()
+
+import pickle 
+filename = 'regular_season_model.sav'
+pickle.dump(knn_clf, open(filename, 'wb'))

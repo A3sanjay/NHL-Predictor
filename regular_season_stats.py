@@ -60,6 +60,6 @@ random.shuffle(augmented_stats)
 csvfile = open('regular_season_data.csv', 'w')
 writer = csv.writer(csvfile)
 writer.writerow(['Points', 'Wins', 'Points Percentage', 'Goals For', 'Goals Against', 'League Rank'])
-for team_stats in cumulative_stats:
+for team_stats in augmented_stats:
     writer.writerow(team_stats)
 csvfile.close()

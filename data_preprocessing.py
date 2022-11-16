@@ -2,25 +2,25 @@ import pandas as pd
 import numpy as np
 
 def preprocessing(df):
-
-    categories = {
-        1: 'Points',
-        2: 'Wins',
-        3: 'Points Percentage',
-        4: 'Goals For',
-        5: 'Goals Against',
-    }
+    categories = []
+    for column_header in df.columns:
+        if column_header != 'League Rank' or column_header != 'Post Season Finish':
+            categories.append(column_header)
 
     errors = []
     for i in range(1, 31):
-        values = df.loc[df['League Rank'] == i]
+        if 'League Rank' in df.columns:
+            column = 'League Rank'
+        else:
+            column = 'Post Season Finish'
+        values = df.loc[df[column] == i]
         # if i == 4 or i == 5:
         #     errors.append(values.index.tolist())
         mean = values.mean()
         standard_deviation = values.std()
-        for key, value in categories.items():
-            gte = values[values[value] > mean[value] + 0.5*standard_deviation[value]].index.tolist() 
-            lte = values[values[value] < mean[value] - 0.5*standard_deviation[value]].index.tolist()
+        for category in categories:
+            gte = values[values[category] > mean[category] + 0.5*standard_deviation[category]].index.tolist() 
+            lte = values[values[category] < mean[category] - 0.5*standard_deviation[category]].index.tolist()
             
             if gte:
                 errors.append(gte)
