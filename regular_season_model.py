@@ -62,10 +62,10 @@ from sklearn.model_selection import cross_val_score
 scores = cross_val_score(knn_clf, X, y, cv=5)
 print('Model accuracy: ', np.mean(scores))
 
-test_data = [85, 37, 0.52, 230, 200]
-test = np.array(test_data)
+# test_data = [85, 37, 0.52, 230, 200]
+# test = np.array(test_data)
 
-print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
+# print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
 
 # for column in X.columns:
 #     plt.scatter(X[column].sample(100), y.sample(100))
@@ -73,6 +73,6 @@ print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
 #     plt.ylabel('League Rank')
 #     plt.show()
 
-import pickle 
-filename = 'regular_season_model.sav'
-pickle.dump(knn_clf, open(filename, 'wb'))
+# import pickle 
+# filename = 'regular_season_model.sav'
+# pickle.dump(knn_clf, open(filename, 'wb'))
