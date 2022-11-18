@@ -1,5 +1,4 @@
-import pandas as pd
-import numpy as np
+# This is the preprocessing for the data where outliers in any of the columns that lie 0.5 standard deviations away from the mean are removed to increase accuracy
 
 def preprocessing(df):
     categories = []
@@ -14,8 +13,6 @@ def preprocessing(df):
         else:
             column = 'Post Season Finish'
         values = df.loc[df[column] == i]
-        # if i == 4 or i == 5:
-        #     errors.append(values.index.tolist())
         mean = values.mean()
         standard_deviation = values.std()
         for category in categories:

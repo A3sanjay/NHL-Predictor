@@ -1,3 +1,4 @@
+# This is a model using KNN to predict post-season finishes as an integer from 1-5 (Winner, Finalist, SF, QF, Round 1)
 import numpy as np
 import seaborn as sns
 
@@ -11,9 +12,8 @@ import data_augmentation
 import data_preprocessing
 
 df = pd.read_csv('post_season_data.csv')
-print('read')
+
 data_preprocessing.preprocessing(df)
-print(len(df))
 new_df = pd.DataFrame(data_augmentation.augmentation(df.values.tolist())).sample(frac = 1)
 
 X = new_df.drop([3], axis=1)
@@ -32,6 +32,7 @@ knn_clf = KNeighborsClassifier()
 mean_acc = np.zeros(20)
 max = 0
 
+# Finding the optimal n_neighbors values for accuracy
 # for i in range(1, 20):
 #     knn_clf = KNeighborsClassifier(n_neighbors = i).fit(X_train, y_train)
 #     y_pred = knn_clf.predict(X_test)
@@ -63,13 +64,20 @@ from sklearn.model_selection import cross_val_score
 scores = cross_val_score(knn_clf, X, y, cv=5)
 print('Model accuracy: ', np.mean(scores))
 
-# test_data = [100, 40, 8]
-# test = np.array(test_data)
+# This is a sample team's averaged 3 year performance for testing
+test_data = [100, 40, 8.0]
+test = np.array(test_data)
 
-# print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
+print(math.trunc(knn_clf.predict(test.reshape(1, -1)).tolist()[0]))
 
-# for column in X.columns:
-#     plt.scatter(X[column].sample(100), y.sample(100))
-#     plt.xlabel(str(column))
-#     plt.ylabel('League Rank')
-#     plt.show()
+# Graphing each input relative to the output
+for column in X.columns:
+    plt.scatter(X[column].sample(100), y.sample(100))
+    plt.xlabel(str(column))
+    plt.ylabel('League Rank')
+    plt.show()
+
+# This is for deployment to Heroku
+# import pickle 
+# filename = 'regular_season_model.sav'
+# pickle.dump(knn_clf, open(filename, 'wb'))

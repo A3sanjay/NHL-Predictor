@@ -1,7 +1,7 @@
+# This is a function to run the standings every year for the compilation of data and help verify with csv writing
 from multiprocessing.dummy import Value
 import requests
 
-# This is a function to run the standings every year for the compilation of data 
 def standings(year):
 
     URL = f"https://statsapi.web.nhl.com/api/v1/standings/regularSeason?date={year}-06-01"

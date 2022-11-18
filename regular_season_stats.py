@@ -1,4 +1,4 @@
-# This is a compilation of data that affects a team's regular season performance and writes it to the csv to use
+# This is a compilation of data that affects a team's regular season performance and writes it to the csv to train with
 
 import requests
 import csv
@@ -8,8 +8,10 @@ import data_augmentation
 
 cumulative_stats = []
 year = 2020
+# Takes the data for each team for the previous 3 years, but uses the CURRENT year's standings result
 while year > 2002:
     tmp_year = year - 1
+    # Taking the standings for the current year as we can't keep calling the present year for the standings after going back
     y_standings = yearly_standings.standings(year)
 
     while tmp_year > year - 3:
@@ -31,9 +33,9 @@ while year > 2002:
             5 : 'goalsAgainst',
         }
         
+        # Going through API to retrieve the correct columns of data
         index1 = 0
         index2 = 0
-        i = 1
         while index1 < len(standings['records']):
             while index2 < len(standings['records'][index1]['teamRecords']):
                 smaller_list = []
@@ -43,8 +45,10 @@ while year > 2002:
                 smaller_list.append(standings['records'][index1]['teamRecords'][index2][categories[4]])
                 smaller_list.append(standings['records'][index1]['teamRecords'][index2][categories[5]])
                 team_name = str(standings['records'][index1]['teamRecords'][index2]['team']['name'])
+                # Utilizing the standings function to append standings data 
                 if (team_name in y_standings):
                     smaller_list.append(y_standings[team_name])
+                # Removing any lists with null values before pushing to list of lists
                 if len(smaller_list) == 6:
                     cumulative_stats.append(smaller_list)
                 index2 = index2 + 1
@@ -55,6 +59,7 @@ while year > 2002:
         tmp_year = tmp_year - 1    
     year = year - 1 
 
+# Augmenting data and writing to csv
 augmented_stats = data_augmentation.augmentation(cumulative_stats)
 random.shuffle(augmented_stats)
 csvfile = open('regular_season_data.csv', 'w')
